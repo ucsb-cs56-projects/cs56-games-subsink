@@ -24,8 +24,12 @@ public class World extends JPanel implements ActionListener {
 		this.height = height;
 		this.waterHeight = 50;
 
-		timer = new Timer(16, this);
+		entities = new ArrayList<Entity>();
+		subs = new ArrayList<Sub>();
+	}
 
+	public void run() {
+		timer = new Timer(16, this);
 		spawn(new Ship(50, waterHeight));
 	}
 

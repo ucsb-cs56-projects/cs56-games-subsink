@@ -1,4 +1,4 @@
-package edu.uscb.cs56.projects.games.subsink;
+package edu.ucsb.cs56.projects.games.subsink;
 
 import javax.swing.*;
 
