@@ -6,7 +6,7 @@ public class HeightCharge extends Entity {
 	public HeightCharge(double x, double y) {
 		super(x, y, 10, 10);
 		speedX = 0;
-		speedY = -0.5;
+		speedY = -15;
 	}
 
 	public void explode() {

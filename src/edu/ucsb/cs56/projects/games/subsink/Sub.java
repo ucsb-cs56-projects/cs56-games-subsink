@@ -3,7 +3,7 @@ package edu.ucsb.cs56.projects.games.subsink;
 import java.awt.*;
 
 public class Sub extends Entity {
-	private double timeSinceSpawn = 0;
+	private double spawnCountdown = 0;
 	private double spawnFrequency;
 
 	public Sub(double x, double y, double speed, double spawnFrequency) {
@@ -14,11 +14,14 @@ public class Sub extends Entity {
 			speedX = speed;
 		}
 		this.spawnFrequency = spawnFrequency;
+		this.spawnCountdown = spawnFrequency;
 	}
 
-	public void interact(DepthCharge other) {
-		if (this.intersects(other)) {
-			other.explode();
+	public void interact(Entity other) {
+		if (! (other instanceof DepthCharge)) return;
+		DepthCharge d = (DepthCharge)other;
+		if (this.intersects(d)) {
+			d.explode();
 			this.damage();
 		}
 	}
@@ -34,10 +37,10 @@ public class Sub extends Entity {
 			speedX = -speedX;
 		}
 
-		timeSinceSpawn += time;
-		if (timeSinceSpawn > spawnFrequency) {
-			timeSinceSpawn -= spawnFrequency;
-			world.spawn(new HeightCharge(x, y));
+		spawnCountdown -= time;
+		if (spawnCountdown <= 0) {
+			spawnCountdown = Math.random() * 0.5 + spawnFrequency;
+			world.spawn(new HeightCharge(x + 30, y - 8));
 		}
 
 		super.update(world, time);

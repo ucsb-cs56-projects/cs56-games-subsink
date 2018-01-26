@@ -6,7 +6,7 @@ public class DepthCharge extends Entity {
 	public DepthCharge(double x, double y) {
 		super(x, y, 10, 15);
 		speedX = 0;
-		speedY = 0.5;
+		speedY = 20;
 	}
 
 	public void explode() {
