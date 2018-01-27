@@ -2,10 +2,22 @@ package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
 
+/**
+ * Subs are the enemies in SubSink.
+ * They patrol the ocean and launch height charges to attack submarine destroyers.
+ */
 public class Sub extends Entity {
 	private double spawnCountdown = 0;
 	private double spawnFrequency;
 
+	/**
+	 * Construct a new Sub with the given initial parameters.
+	 *
+	 * @param x		The initial x position in pixels
+	 * @param y		The initial y position in pixels
+	 * @param speed		The sub's horizontal speed. This should be a positive number; its sign will be chosen based on the x position such that the sub is moving onto the screen if it is offscreen.
+	 * @param spawnFrequency	The average time between charge spawns
+	 */
 	public Sub(double x, double y, double speed, double spawnFrequency) {
 		super(x, y, 60, 10);
 		if (x > 0) {
@@ -17,6 +29,11 @@ public class Sub extends Entity {
 		this.spawnCountdown = spawnFrequency;
 	}
 
+	/**
+	 * Interact with other entities. If the sub touches a depth charge, it damages the sub and explodes the charge.
+	 *
+	 * @param other	The other entity with which to interact
+	 */
 	public void interact(Entity other) {
 		if (! (other instanceof DepthCharge)) return;
 		DepthCharge d = (DepthCharge)other;
@@ -26,10 +43,20 @@ public class Sub extends Entity {
 		}
 	}
 
+	/**
+	 * Deal a point of damage to the sub, destroying it.
+	 */
 	public void damage() {
 		destroy();
 	}
 
+	/**
+	 * Update the sub with respect to the world.
+	 * Subs will move back and forth at a constant speed, bouncing off the walls of the game and spawning height charges at a random interval.
+	 *
+	 * @param world	The encompassing World
+	 * @param time	The time since the last update in seconds
+	 */
 	public void update(World world, double time) {
 		if (speedX < 0 && x < 0) {
 			speedX = -speedX;
@@ -44,6 +71,13 @@ public class Sub extends Entity {
 		}
 
 		super.update(world, time);
+	}
+
+	/**
+	 * Register the death of the sub by granting one point to the player's score.
+	 */
+	public void finalize(World w) {
+		w.giveScore(1);
 	}
 
 	public void paint(Graphics2D g) {

@@ -2,6 +2,9 @@ package edu.ucsb.cs56.projects.games.subsink;
 
 import javax.swing.*;
 
+/**
+ * The top level class; the java entry point and the game's main window.
+ */
 public class Main extends JFrame {
 	private World w;
 
@@ -17,6 +20,9 @@ public class Main extends JFrame {
 		add(w);
 	}
 
+	/**
+	 * Start the main game loop.
+	 */
 	public void run() {
 		w.run();
 	}

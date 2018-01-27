@@ -9,6 +9,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * The World is the main gameplay class that contains global game state and the game's entities.
+ */
 public class World extends JPanel implements ActionListener {
 	private ArrayList<Entity> entities;
 	private Ship player;
@@ -24,6 +27,12 @@ public class World extends JPanel implements ActionListener {
 	private boolean locked = false;
 	private int chargeStock = 4;
 
+	/**
+	 * Construct a new world with the given dimensions
+	 *
+	 * @param width		The width of the world in pixels
+	 * @param height	The height of the world in pixels
+	 */
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -40,43 +49,69 @@ public class World extends JPanel implements ActionListener {
 		msPerFrame = 30;
 	}
 
+	/**
+	 * Run the main game loop.
+	 * Spawns a new player and starts a timer to run the update code once per frame.
+	 */
 	public void run() {
 		timer = new Timer(msPerFrame, this);
 		timer.start();
 		player = new Ship(50, waterHeight);
 		spawn(player);
-		player.accelerateRight();
 	}
 
+	/**
+	 * The once-per-frame callback, as per the <code>implements ActionListener</code>.
+	 * Updates the game state and redraws everything.
+	 *
+	 * @param e	I don't care about this funny little man.
+	 */
 	public void actionPerformed(ActionEvent e) {
+		// safety measure - this stuff is not thread safe
 		if (locked) {
 			System.err.println("[!] two frames at once?");
 			return;
 		}
 		locked = true;
+		update();
+		repaint();
+		Toolkit.getDefaultToolkit().sync(); // this REALLY forces the repaint
+		locked = false;
+	}
+
+	/**
+	 * Update the gameplay state for a single frame.
+	 * Manages all the entities, the difficulty, and the spawning of new subs.
+	 */
+	public void update() {
 		double frameTime = (double)msPerFrame / 1000;
 
+		// perform entity interaction
 		for (Entity e1 : entities) {
 			for (Entity e2 : entities) {
+				if (e1.isDestroyed() || e2.isDestroyed()) {
+					continue;
+				}
 				if (e1 != e2) {
 					e1.interact(e2);
 				}
 			}
 		}
+
+		// cull dead enemies, allow finalization (technically spawning could happen here)
+		cull();
+
+		// perform entity updates, allow spawning
 		for (Entity e1 : (ArrayList<Entity>)entities.clone()) {
 			e1.update(this, frameTime);
 		}
 
-		cull(entities);
-
-		if (player.isDestroyed()) {
-			gameOver();
-		}
-
+		// increase difficulty at quadratic intervals
 		if (score > maxSubs * maxSubs) {
 			maxSubs++;
 		}
 
+		// spawn new subs if necessary
 		if (countSubs() < maxSubs) {
 			spawnTimer -= frameTime;
 			if (spawnTimer <= 0) {
@@ -88,43 +123,58 @@ public class World extends JPanel implements ActionListener {
 					Math.random() * 10 + 10));
 			}
 		}
-
-		repaint();
-		locked = false;
 	}
 
+
+	/**
+	 * Mark the end of the game.
+	 * Prints out the final score and exits the application.
+	 */
 	public void gameOver() {
+		System.out.println("Final Score: " + new Integer(score).toString());
 		System.exit(0);
 	}
 
+	/**
+	 * Draw all the graphics, including all the entities.
+	 */
 	public void paint(Graphics g) {
 		super.paint(g);
 
 		Graphics2D g2d = (Graphics2D) g;
 
+		// draw background
 		g2d.setColor(Color.CYAN);
 		g2d.fillRect(0, 0, width, waterHeight);
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(0, waterHeight, width, height - waterHeight);
 
+		// draw health
 		for (int health = player.getHealth(), cx = width - 20; health > 0; health--, cx -= 20) {
 			g2d.drawImage(ImageLoader.get("img/height_charge.png"), cx, 10, null);
 		}
 
+		// draw charge stock
 		for (int charge = chargeStock, cx = 10; charge > 0; charge--, cx += 20) {
 			g2d.drawImage(ImageLoader.get("img/depth_charge.png"), cx, 10, null);
 		}
 
+		// draw score
 		g2d.setColor(Color.BLACK);
 		g2d.drawString("Score: " + new Integer(score).toString(), width/2 - 30, 15);
 
+		// draw entities
 		for (Entity e : entities) {
 			e.paint(g2d);
 		}
 		g.dispose();
-		Toolkit.getDefaultToolkit().sync();
 	}
 
+	/**
+	 * Count the current number of live subs.
+	 *
+	 * @return The current number of live subs
+	 */
 	public int countSubs() {
 		int out = 0;
 		for (Entity e : entities) {
@@ -135,48 +185,49 @@ public class World extends JPanel implements ActionListener {
 		return out;
 	}
 
-	public void spawn(Entity e) {
-		entities.add(e);
-	}
-
-	public void cull(ArrayList<Entity> list) {
-		Iterator<Entity> i = list.iterator();
+	/**
+	 * Cull the entity list, running the finalization handler and discarding any entities which have been destroyed.
+	 */
+	public void cull() {
+		Iterator<Entity> i = entities.iterator();
 		while (i.hasNext()) {
 			Entity e = i.next();
 			if (e.isDestroyed()) {
+				e.finalize(this);
 				i.remove();
-
-				if (e instanceof Sub) {
-					score++;
-				} else if (e instanceof DepthCharge) {
-					chargeStock++;
-				}
 			}
 		}
 	}
 
+	// getters and simple updaters
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 	public int getWaterHeight() { return waterHeight; }
+	public void giveScore(int count) { score += count; }
+	public void giveStock(int count) { chargeStock += count; }
+	public void spawn(Entity e) { entities.add(e); }
 
+	/**
+	 * This class handles the player's keypresses and dispatches them to the appropriate handlers.
+	 */
 	class MyListener extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
 			switch(e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
-					player.accelerateLeft();
+					player.accelerate(true);
 					break;
 				case KeyEvent.VK_RIGHT:
-					player.accelerateRight();
+					player.accelerate(false);
 					break;
 				case KeyEvent.VK_Z:
 					if (chargeStock > 0) {
-						player.spawn(true);
+						player.spawnCharge(true);
 						chargeStock--;
 					}
 					break;
 				case KeyEvent.VK_X:
 					if (chargeStock > 0) {
-						player.spawn(false);
+						player.spawnCharge(false);
 						chargeStock--;
 					}
 					break;
