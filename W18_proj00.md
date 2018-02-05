@@ -35,19 +35,19 @@
 
 * (f) (20 pts) An assessment of the current state of the build.xml file if applicable, or if the project has been converted to Maven or Gradle, note this.
 
-<br />looks fine
+  <br/> build.xml file is in a good state
 
    * If it's based on Ant, Are there targets that need descriptions?  Is there old legacy JWS stuff that needs to be removed?  (More on this below).
    
-   <br />build file lloks fine. No descriptions needed as if yet.
+   <br /> build file looks fine. No descriptions needed yet.
    
-   * It it's based on Maven or Gradle, is there sufficient documentation in the README.md that someone new to those tools has the information they need to get started?
+   * If it's based on Maven or Gradle, is there sufficient documentation in the README.md that someone new to those tools has the information they need to get started?
   
-  <br />not based on maven or gradle
+  <br /> not based on maven/gradle
    
 * (g) (20 pts) An assessment of the current "issues".  Are there enough issues that you could earn 1000 points by working on this project?   Are the issues clear in terms of what the expectations are?
 
-<br />Issues look good. There are more than 1000 points avaible to earn. The descriptions are suffiecient, though a little more detail wouldn't hurt.
+<br /> Issues look good. There are more than 1000 points avaible to earn. The descriptions are suffiecient, some need a little more detail.
 
 
 * (h) (20 pts) A list of additional issues that you may have added, if any. For each, a link to the issue is good enough.
@@ -63,7 +63,7 @@
 * (j) (40 pts) Related to code quality, but factored out into a separate issue because it is so important: how is the test coverage?   Are there JUnit tests at all?  If so, how much of the project is covered by testing?  Are there opportunities to expand test coverage, and if so, how would you go about it?-pconrad.github.io/topics/user_stories/) are supposed to be written.
 
 <br />There are opportunites to cover test coverage, as the tests are not yet written.
-<br /> Probably will uses JUnit tests
+<br /> Probably will use JUnit tests
 
 
 
