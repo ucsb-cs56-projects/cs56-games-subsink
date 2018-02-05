@@ -6,10 +6,10 @@
 
 * (b) (20 pts) a set of user stories (as a X I can Y so that Z) that describe what the current software in its current state can do.
 
-  <br /> As a player, I can drop bombs on enemy submarines
-   <br />As a player, I can move forward and backwards
-   <br />As a player, I can switch to different speed settings
-  
+   <br/> As a player, I can drop bombs on enemy submarines
+   <br/> As a player, I can move forward and backwards
+   <br/> As a player, I can switch to different speed settings
+   <br/> As a player, I can release up to 3 bombs consecutively to destroy enemies
     
 
     * First, review how [User Stories](https://ucsb-cs56-pconrad.github.io/topics/user_stories/) are supposed to be written.
@@ -23,12 +23,15 @@
    
    <br />As a user, I can use my bombs to destroy enemy rockets
    <br /> As a user, I can move my boat with one keystroke instead of 6
-    <br />AS a user, I can throw bombs from the middle of the boat instead of two sides to reduce complexity
+    <br />As a user, I can throw bombs from the middle of the boat instead of two sides to reduce complexity
     <br />As a user, I can make submarines explode instead of just dissapearing when they are defeated
+    <br /> As a user, I can see my past scores and high scores
     
 * (e) (20 pts) An assessment of the current quality of the README.md.   What information could be added to make it easier for the next generation of folks maintaining this code to use the software, and/or maintain the software? 
+  <br /> It would be much easier for Java beginners if the README.md contained step-by-step instructions on how to compile and run the game
   
-  <br />need to think of new name for "height charges" and maybe a little bit more detail on the code structure.  
+  <br /> Modify the "Code Structure" section to explain with more detail
+  <br /> Need to think of new name for "height charges".  
 
 * (f) (20 pts) An assessment of the current state of the build.xml file if applicable, or if the project has been converted to Maven or Gradle, note this.
 
