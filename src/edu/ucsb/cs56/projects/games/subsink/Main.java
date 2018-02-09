@@ -12,12 +12,13 @@ public class Main extends JFrame {
 		setTitle("Subsink");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(620, 480);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setVisible(true);
 
 		w = new World(getWidth(), getHeight());
 		add(w);
+
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setVisible(true);
 	}
 
 	/**

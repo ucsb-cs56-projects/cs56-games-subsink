@@ -47,6 +47,10 @@ public class World extends JPanel implements ActionListener {
 		maxSubs = 2;
 		spawnTimer = 5;
 		msPerFrame = 30;
+
+		player = new Ship(50, waterHeight);
+		spawn(player);
+		timer = new Timer(msPerFrame, this);
 	}
 
 	/**
@@ -54,10 +58,7 @@ public class World extends JPanel implements ActionListener {
 	 * Spawns a new player and starts a timer to run the update code once per frame.
 	 */
 	public void run() {
-		timer = new Timer(msPerFrame, this);
 		timer.start();
-		player = new Ship(50, waterHeight);
-		spawn(player);
 	}
 
 	/**
