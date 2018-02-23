@@ -7,8 +7,8 @@
 	<property name="webRoot" value="${env.HOME}/public_html/cs56" />
 	<property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
 	<property name="projectName" value="cs56-games-subsink" /> 
-	<property name="javadocDest" value="${webRoot}/${projectName}/javadoc" /> 
-	<property name="javadocURL" value="${webBaseURL}/${projectName}/javadoc" /> 
+	<property name="javadocDest" value="${webRoot}/${projectName}/docs" />
+	<property name="javadocURL" value="${webBaseURL}/${projectName}/docs" />
 	<property name="javadocLink" value="http://java.sun.com/javase/7/docs/api/" />
 	<path id="project.class.path">
 		<pathelement location="./build"/>
@@ -31,8 +31,8 @@
 	</target>
 
 	<target name="javadoc" depends="compile" description="Generate/publish javadoc."> 
-		<delete dir="javadoc" quiet="true" /> 
-		<javadoc  destdir="javadoc" author="true" version="true" use="true" >
+		<delete dir="docs" quiet="true" />
+		<javadoc  destdir="docs" author="true" version="true" use="true" >
 			<fileset dir="src" includes="**/*.java"/>
 			<classpath refid="project.class.path" />
 			<link href="${javadocLink}" /> <!-- for external links to std API classes -->
@@ -44,7 +44,7 @@
 		<!-- copy everything you just made to the javadoc destination,
 		and then make it readable -->   
 		<copy todir="${javadocDest}" > 
-			<fileset dir="javadoc"/> 
+			<fileset dir="docs"/>
 		</copy> 
 
 		<!-- Note: this only does the chmod command on the javadoc
@@ -71,6 +71,6 @@
 
 	<target name="clean" description="Delete unnecessary files and directories.">
 		<delete dir="build" failonerror="false" verbose="true" />
-		<delete dir="javadoc" failonerror="false" verbose="true" />
+		<delete dir="docs" failonerror="false" verbose="true" />
 	</target>
 </project>
