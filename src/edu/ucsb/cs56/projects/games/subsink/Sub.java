@@ -10,6 +10,8 @@ public class Sub extends Entity {
 	private double spawnCountdown = 0;
 	private double spawnFrequency;
 
+	private Boolean flipped = false;
+
 	/**
 	 * Construct a new Sub with the given initial parameters.
 	 *
@@ -60,8 +62,10 @@ public class Sub extends Entity {
 	public void update(World world, double time) {
 		if (speedX < 0 && x < 0) {
 			speedX = -speedX;
+			this.flipped = !this.flipped;
 		} else if (speedX > 0 && x + width > world.getWidth()) {
 			speedX = -speedX;
+			this.flipped = !this.flipped;
 		}
 
 		spawnCountdown -= time;
@@ -81,6 +85,10 @@ public class Sub extends Entity {
 	}
 
 	public void paint(Graphics2D g) {
-		g.drawImage(ImageLoader.get("img/sub.png"), (int)x, (int)y, null);
+		if (flipped){
+			g.drawImage(ImageLoader.get("img/sub_flipped.png"), (int) x, (int) y, null);
+		}else {
+			g.drawImage(ImageLoader.get("img/sub.png"), (int) x, (int) y, null);
+		}
 	}
 }
