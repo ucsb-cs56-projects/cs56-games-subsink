@@ -70,6 +70,8 @@ public class Ship extends Entity {
 	public void spawnCharge(boolean spawnLeft) {
 		spawning = true;
 		this.spawnLeft = spawnLeft;
+		explosion = new Explosion(x,y);
+		explosion.playDropChargeSound();
 	}
 
 	/**
