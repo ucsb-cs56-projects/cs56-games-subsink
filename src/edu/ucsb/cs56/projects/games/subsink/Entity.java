@@ -2,6 +2,7 @@ package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.Graphics2D;
+import java.io.IOException;
 
 /**
  * Entity is the base class for all gameplay entities.
@@ -49,7 +50,7 @@ public abstract class Entity extends Rectangle2D.Double {
 	 * @param world	The encompassing World
 	 * @param time	The time since the last update in seconds
 	 */
-	public void update(World world, double time) {
+	public void update(World world, double time) throws IOException {
 		x += speedX * time;
 		y += speedY * time;
 	}

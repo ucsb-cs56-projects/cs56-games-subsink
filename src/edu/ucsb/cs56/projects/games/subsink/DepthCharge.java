@@ -1,6 +1,8 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
+import java.io.IOException;
+
 
 /**
  * A DepthCharge is the entity representing the weapons the player drops.
@@ -13,6 +15,7 @@ public class DepthCharge extends Entity {
 	 * @param x	The initial x position
 	 * @param y	The initial y position
 	 */
+
 	public DepthCharge(double x, double y) {
 		super(x, y, 10, 15);
 		speedX = 0;
@@ -33,9 +36,10 @@ public class DepthCharge extends Entity {
 	 * @param world	The parent World object
 	 * @param time	The time since the last update in seconds
 	 */
-	public void update(World world, double time) {
+	public void update(World world, double time) throws IOException {
 		if (y > world.getHeight()) {
 			destroy();
+
 		} else {
 			super.update(world, time);
 		}

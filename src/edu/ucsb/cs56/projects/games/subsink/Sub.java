@@ -1,6 +1,7 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Subs are the enemies in SubSink.
@@ -10,7 +11,9 @@ public class Sub extends Entity {
 	private double spawnCountdown = 0;
 	private double spawnFrequency;
 
+	Explosion explosion;
 	private Boolean flipped = false;
+
 
 	/**
 	 * Construct a new Sub with the given initial parameters.
@@ -49,6 +52,12 @@ public class Sub extends Entity {
 	 * Deal a point of damage to the sub, destroying it.
 	 */
 	public void damage() {
+		explosion = new Explosion(0,0);
+		try {
+			explosion.playExplosionSound();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		destroy();
 	}
 
@@ -74,7 +83,11 @@ public class Sub extends Entity {
 			world.spawn(new HeightCharge(x + 30, y - 8));
 		}
 
-		super.update(world, time);
+		try {
+			super.update(world, time);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

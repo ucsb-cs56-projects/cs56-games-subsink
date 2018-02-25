@@ -1,6 +1,7 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Ship is the player entity. It moves back and forth on the surface of the water and can drop charges.
@@ -9,6 +10,8 @@ public class Ship extends Entity {
 	private int health = 3;
 	private boolean spawning = false;
 	private boolean spawnLeft = false;
+	Explosion explosion;
+
 
 	/**
 	 * Construct a new ship at the given initial position
@@ -43,7 +46,11 @@ public class Ship extends Entity {
 			spawning = false;
 		}
 
-		super.update(world, time);
+		try {
+			super.update(world, time);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -87,8 +94,15 @@ public class Ship extends Entity {
 	 */
 	public void damage() {
 		health--;
+		explosion = new Explosion(x,y);
+		try {
+			explosion.playExplosionSound();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (health == 0) {
 			destroy();
+
 		}
 	}
 
