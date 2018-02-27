@@ -121,6 +121,7 @@ public class Ship extends Entity {
 			h.explode();
 			this.damage();
 		}
+
 	}
 
 	public void paint(Graphics2D g) {

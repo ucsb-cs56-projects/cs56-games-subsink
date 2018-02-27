@@ -10,10 +10,9 @@ import java.io.IOException;
 public class Sub extends Entity {
 	private double spawnCountdown = 0;
 	private double spawnFrequency;
-
-	Explosion explosion;
-	private Boolean flipped = false;
-
+	public Explosion explosion;
+	private boolean flipped = false;
+	private boolean isExploded = false;
 
 	/**
 	 * Construct a new Sub with the given initial parameters.
@@ -43,10 +42,12 @@ public class Sub extends Entity {
 		if (! (other instanceof DepthCharge)) return;
 		DepthCharge d = (DepthCharge)other;
 		if (this.intersects(d)) {
+			isExploded = true;
 			d.explode();
 			this.damage();
 		}
 	}
+
 
 	/**
 	 * Deal a point of damage to the sub, destroying it.
@@ -58,7 +59,6 @@ public class Sub extends Entity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		destroy();
 	}
 
 	/**
@@ -83,6 +83,7 @@ public class Sub extends Entity {
 			world.spawn(new HeightCharge(x + 30, y - 8));
 		}
 
+
 		try {
 			super.update(world, time);
 		} catch (IOException e) {
@@ -97,10 +98,20 @@ public class Sub extends Entity {
 		w.giveScore(1);
 	}
 
+
+
 	public void paint(Graphics2D g) {
-		if (flipped){
+		if (isExploded) {
+			g.drawImage(ImageLoader.get("img/explosion.jpg"), (int) x, (int) y, null);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			destroy();
+		}else if (flipped){
 			g.drawImage(ImageLoader.get("img/sub_flipped.png"), (int) x, (int) y, null);
-		}else {
+		}else{
 			g.drawImage(ImageLoader.get("img/sub.png"), (int) x, (int) y, null);
 		}
 	}

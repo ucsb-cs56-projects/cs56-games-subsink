@@ -61,12 +61,5 @@ public class Explosion extends Entity {
         g.drawImage(ImageLoader.get("img/explosion.png"), (int) x, (int) y, null);
     }
 
-    public static void main(String[] args){
-        Explosion e = new Explosion(0,0);
-        try {
-            e.playExplosionSound();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
+
 }
