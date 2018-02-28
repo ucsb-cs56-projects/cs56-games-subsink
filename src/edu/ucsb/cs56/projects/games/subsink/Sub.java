@@ -13,6 +13,7 @@ public class Sub extends Entity {
 	public Explosion explosion;
 	private boolean flipped = false;
 	private boolean isExploded = false;
+	double explosionTimer = 0.5;
 
 	/**
 	 * Construct a new Sub with the given initial parameters.
@@ -43,6 +44,7 @@ public class Sub extends Entity {
 		DepthCharge d = (DepthCharge)other;
 		if (this.intersects(d)) {
 			isExploded = true;
+			explosionTimer = 0.5;
 			d.explode();
 			this.damage();
 		}
@@ -53,7 +55,7 @@ public class Sub extends Entity {
 	 * Deal a point of damage to the sub, destroying it.
 	 */
 	public void damage() {
-		explosion = new Explosion(0,0);
+		explosion = new Explosion();
 		try {
 			explosion.playExplosionSound();
 		} catch (IOException e) {
@@ -83,11 +85,20 @@ public class Sub extends Entity {
 			world.spawn(new HeightCharge(x + 30, y - 8));
 		}
 
+		if (isExploded){
+			if (explosionTimer < 0){
 
-		try {
-			super.update(world, time);
-		} catch (IOException e) {
-			e.printStackTrace();
+				world.spawn(new Bubbles(x+15, y - 65));
+				destroy();
+			}
+			explosionTimer -= time;
+		}
+		else {
+			try {
+				super.update(world, time);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -101,14 +112,10 @@ public class Sub extends Entity {
 
 
 	public void paint(Graphics2D g) {
+		double xOffset = (int) (Math.random() * 10) + x - 10;
+		double yOffset = (int) (Math.random() * 10) + y - 10;
 		if (isExploded) {
-			g.drawImage(ImageLoader.get("img/explosion.jpg"), (int) x, (int) y, null);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			destroy();
+			g.drawImage(ImageLoader.get("img/explosion.png"), (int) xOffset, (int) yOffset, null);
 		}else if (flipped){
 			g.drawImage(ImageLoader.get("img/sub_flipped.png"), (int) x, (int) y, null);
 		}else{

@@ -12,6 +12,9 @@ public class Ship extends Entity {
 	private boolean spawnLeft = false;
 	Explosion explosion;
 
+	double splashTimer = 0;
+	boolean isSplashed = false;
+	double[] splashLocation = {0,0};
 
 	/**
 	 * Construct a new ship at the given initial position
@@ -41,10 +44,28 @@ public class Ship extends Entity {
 			x = world.getWidth() - width;
 		}
 
-		if (spawning) {
-			world.spawn(new DepthCharge(spawnLeft ? x - 5 : x + 75, y + 15));
-			spawning = false;
+
+		if (isSplashed){
+			Splash s;
+			if (spawnLeft){
+				s = new Splash(splashLocation[0] - 20, splashLocation[1] + 15);
+			}else{
+				s = new Splash(splashLocation[0] + 135, splashLocation[1] + 15);
+			}
+			world.spawn(s);
+			if (splashTimer < 0){
+				isSplashed = false;
+				}
+			s.destroy();
+			splashTimer -= time;
 		}
+
+		if (spawning) {
+			world.spawn(new DepthCharge(spawnLeft ? x : x + 155, y + 15));
+			spawning = false;
+
+		}
+
 
 		try {
 			super.update(world, time);
@@ -70,8 +91,13 @@ public class Ship extends Entity {
 	public void spawnCharge(boolean spawnLeft) {
 		spawning = true;
 		this.spawnLeft = spawnLeft;
-		explosion = new Explosion(x,y);
+		explosion = new Explosion();
 		explosion.playDropChargeSound();
+		splashTimer = .5;
+		isSplashed = true;
+		splashLocation[0] = x;
+		splashLocation[1] = y;
+
 	}
 
 	/**
@@ -96,7 +122,7 @@ public class Ship extends Entity {
 	 */
 	public void damage() {
 		health--;
-		explosion = new Explosion(x,y);
+		explosion = new Explosion();
 		try {
 			explosion.playExplosionSound();
 		} catch (IOException e) {

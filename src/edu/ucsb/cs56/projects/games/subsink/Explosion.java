@@ -12,16 +12,12 @@ import sun.audio.*;
 /**
  * Created by andy on 2/25/18.
  */
-public class Explosion extends Entity {
-
-    Explosion(double x, double y){
-        super(x,y,10,10);
-    }
+public class Explosion {
 
     public void playExplosionSound() throws IOException {
 
             // open the sound file as a Java input stream
-            String gongFile = "assets/sound/explosion.wav";
+            String gongFile = "assets/sounds/explosion.wav";
             InputStream in = new FileInputStream(gongFile);
 
             // create an audiostream from the inputstream
@@ -35,7 +31,7 @@ public class Explosion extends Entity {
     public void playDropChargeSound(){
 
         // open the sound file as a Java input stream
-        String gongFile = "assets/sound/drop_charge.wav";
+        String gongFile = "assets/sounds/drop_charge.wav";
         InputStream in = null;
         try {
             in = new FileInputStream(gongFile);
@@ -54,11 +50,6 @@ public class Explosion extends Entity {
         // play the audio clip with the audioplayer class
         AudioPlayer.player.start(audioStream);
 
-    }
-
-    @Override
-    public void paint(Graphics2D g) {
-        g.drawImage(ImageLoader.get("img/explosion.png"), (int) x, (int) y, null);
     }
 
 
