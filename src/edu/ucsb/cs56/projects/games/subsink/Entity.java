@@ -2,6 +2,7 @@ package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.Graphics2D;
+import java.io.IOException;
 
 /**
  * Entity is the base class for all gameplay entities.
@@ -18,6 +19,7 @@ public abstract class Entity extends Rectangle2D.Double {
 	 */
 	protected double speedY = 0;
 	private boolean gone = false;
+
 
 	/**
 	 * All entities are rectangles, so to initialize one you must provide its position and size.

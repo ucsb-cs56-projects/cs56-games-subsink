@@ -1,6 +1,7 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * A HeightCharge is the weapon the submarine fires.
@@ -13,10 +14,13 @@ public class HeightCharge extends Entity {
 	 * @param x	The initial horizontal position in pixels
 	 * @param y	The initial vertical position in pixels
 	 */
+
+
+
 	public HeightCharge(double x, double y) {
 		super(x, y, 10, 10);
 		speedX = 0;
-		speedY = -15;
+		speedY = -50;
 	}
 
 	/**
@@ -35,8 +39,10 @@ public class HeightCharge extends Entity {
 	public void update(World world, double time) {
 		if (y < world.getWaterHeight()) {
 			destroy();
+
 		} else {
-			super.update(world, time);
+				super.update(world, time);
+
 		}
 	}
 

@@ -1,6 +1,7 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Subs are the enemies in SubSink.
@@ -9,6 +10,9 @@ import java.awt.*;
 public class Sub extends Entity {
 	private double spawnCountdown = 0;
 	private double spawnFrequency;
+	public Explosion explosion;
+	private boolean isExploded = false;
+	double explosionTimer = 0.5;
 
 	/**
 	 * Construct a new Sub with the given initial parameters.
@@ -38,16 +42,20 @@ public class Sub extends Entity {
 		if (! (other instanceof DepthCharge)) return;
 		DepthCharge d = (DepthCharge)other;
 		if (this.intersects(d)) {
+			isExploded = true;
+			explosionTimer = 0.5;
 			d.explode();
 			this.damage();
 		}
 	}
 
+
 	/**
 	 * Deal a point of damage to the sub, destroying it.
 	 */
 	public void damage() {
-		destroy();
+		explosion = new Explosion();
+		explosion.playExplosionSound();
 	}
 
 	/**
@@ -70,7 +78,17 @@ public class Sub extends Entity {
 			world.spawn(new HeightCharge(x + 30, y - 8));
 		}
 
-		super.update(world, time);
+		if (isExploded){
+			if (explosionTimer < 0){
+
+				world.spawn(new Bubbles(x+15, y - 65));
+				destroy();
+			}
+			explosionTimer -= time;
+		}
+		else {
+			super.update(world, time);
+		}
 	}
 
 	/**
@@ -80,7 +98,17 @@ public class Sub extends Entity {
 		w.giveScore(1);
 	}
 
+
+
 	public void paint(Graphics2D g) {
-		g.drawImage(ImageLoader.get("img/sub.png"), (int)x, (int)y, null);
+		double xOffset = (int) (Math.random() * 10) + x - 10;
+		double yOffset = (int) (Math.random() * 10) + y - 10;
+		if (isExploded) {
+			g.drawImage(ImageLoader.get("img/explosion.png"), (int) xOffset, (int) yOffset, null);
+		}else if ((speedX < 0)){
+			g.drawImage(ImageLoader.get("img/sub.png"), (int) x, (int) y, null);
+		}else{
+			g.drawImage(ImageLoader.get("img/sub.png"), (int) x + 60, (int) y, -60, 10,  null);
+		}
 	}
 }

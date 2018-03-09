@@ -1,6 +1,7 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Ship is the player entity. It moves back and forth on the surface of the water and can drop charges.
@@ -9,6 +10,11 @@ public class Ship extends Entity {
 	private int health = 3;
 	private boolean spawning = false;
 	private boolean spawnLeft = false;
+	Explosion explosion;
+
+	double splashTimer = 0;
+	boolean isSplashed = false;
+	double[] splashLocation = {0,0};
 
 	/**
 	 * Construct a new ship at the given initial position
@@ -17,7 +23,7 @@ public class Ship extends Entity {
 	 * @param y	The initial vertical position in pixels
 	 */
 	public Ship(double x, double y) {
-		super(x, y-12, 80, 15);
+		super(x, y-26, 166, 31);
 	}
 
 	/**
@@ -38,12 +44,30 @@ public class Ship extends Entity {
 			x = world.getWidth() - width;
 		}
 
-		if (spawning) {
-			world.spawn(new DepthCharge(spawnLeft ? x - 5 : x + 75, y + 15));
-			spawning = false;
+
+		if (isSplashed){
+			Splash s;
+			if (spawnLeft){
+				s = new Splash(splashLocation[0] - 20, splashLocation[1] + 15);
+			}else{
+				s = new Splash(splashLocation[0] + 135, splashLocation[1] + 15);
+			}
+			world.spawn(s);
+			if (splashTimer < 0){
+				isSplashed = false;
+				}
+			s.destroy();
+			splashTimer -= time;
 		}
 
-		super.update(world, time);
+		if (spawning) {
+			world.spawn(new DepthCharge(spawnLeft ? x : x + 155, y + 15));
+			spawning = false;
+
+		}
+
+			super.update(world, time);
+
 	}
 
 	/**
@@ -63,6 +87,13 @@ public class Ship extends Entity {
 	public void spawnCharge(boolean spawnLeft) {
 		spawning = true;
 		this.spawnLeft = spawnLeft;
+		explosion = new Explosion();
+		explosion.playDropChargeSound();
+		splashTimer = .5;
+		isSplashed = true;
+		splashLocation[0] = x;
+		splashLocation[1] = y;
+
 	}
 
 	/**
@@ -87,8 +118,12 @@ public class Ship extends Entity {
 	 */
 	public void damage() {
 		health--;
+		explosion = new Explosion();
+		explosion.playExplosionSound();
+
 		if (health == 0) {
 			destroy();
+
 		}
 	}
 
@@ -105,6 +140,7 @@ public class Ship extends Entity {
 			h.explode();
 			this.damage();
 		}
+
 	}
 
 	public void paint(Graphics2D g) {

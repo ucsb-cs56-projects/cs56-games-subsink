@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -104,7 +105,8 @@ public class World extends JPanel implements ActionListener {
 
 		// perform entity updates, allow spawning
 		for (Entity e1 : (ArrayList<Entity>)entities.clone()) {
-			e1.update(this, frameTime);
+				e1.update(this, frameTime);
+
 		}
 
 		// increase difficulty at quadratic intervals
