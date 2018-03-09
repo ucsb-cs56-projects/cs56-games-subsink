@@ -23,7 +23,7 @@ public class Ship extends Entity {
 	 * @param y	The initial vertical position in pixels
 	 */
 	public Ship(double x, double y) {
-		super(x, y-30, 166, 31);
+		super(x, y-26, 166, 31);
 	}
 
 	/**
