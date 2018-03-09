@@ -27,7 +27,7 @@ public class Bubbles extends Entity {
     }
 
     @Override
-    public void update(World world, double time) throws IOException {
+    public void update(World world, double time) {
         if (y < world.getWaterHeight()) {
             destroy();
 

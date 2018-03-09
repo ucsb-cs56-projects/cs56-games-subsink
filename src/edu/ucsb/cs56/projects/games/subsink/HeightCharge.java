@@ -41,11 +41,8 @@ public class HeightCharge extends Entity {
 			destroy();
 
 		} else {
-			try {
 				super.update(world, time);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
 		}
 	}
 

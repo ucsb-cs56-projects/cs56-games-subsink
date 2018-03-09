@@ -105,11 +105,8 @@ public class World extends JPanel implements ActionListener {
 
 		// perform entity updates, allow spawning
 		for (Entity e1 : (ArrayList<Entity>)entities.clone()) {
-			try {
 				e1.update(this, frameTime);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
 		}
 
 		// increase difficulty at quadratic intervals

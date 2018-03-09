@@ -51,7 +51,7 @@ public abstract class Entity extends Rectangle2D.Double {
 	 * @param world	The encompassing World
 	 * @param time	The time since the last update in seconds
 	 */
-	public void update(World world, double time) throws IOException {
+	public void update(World world, double time) {
 		x += speedX * time;
 		y += speedY * time;
 	}

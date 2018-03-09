@@ -40,7 +40,7 @@ public class DepthCharge extends Entity {
 	 * @param world The parent World object
 	 * @param time  The time since the last update in seconds
 	 */
-	public void update(World world, double time) throws IOException {
+	public void update(World world, double time) {
 
 		bubbleSpawnCountdown -= time;
 		if (bubbleSpawnCountdown <= 0) {

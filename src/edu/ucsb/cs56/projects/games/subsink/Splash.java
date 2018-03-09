@@ -12,7 +12,7 @@ public class Splash extends Entity {
     }
 
     @Override
-    public void update(World world, double time) throws IOException {
+    public void update(World world, double time){
         super.update(world, time);
     }
 

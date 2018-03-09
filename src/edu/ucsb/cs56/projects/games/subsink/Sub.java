@@ -56,11 +56,7 @@ public class Sub extends Entity {
 	 */
 	public void damage() {
 		explosion = new Explosion();
-		try {
-			explosion.playExplosionSound();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		explosion.playExplosionSound();
 	}
 
 	/**
@@ -94,11 +90,7 @@ public class Sub extends Entity {
 			explosionTimer -= time;
 		}
 		else {
-			try {
-				super.update(world, time);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			super.update(world, time);
 		}
 	}
 

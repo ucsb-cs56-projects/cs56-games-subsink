@@ -66,12 +66,8 @@ public class Ship extends Entity {
 
 		}
 
-
-		try {
 			super.update(world, time);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	/**
@@ -123,11 +119,8 @@ public class Ship extends Entity {
 	public void damage() {
 		health--;
 		explosion = new Explosion();
-		try {
-			explosion.playExplosionSound();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		explosion.playExplosionSound();
+
 		if (health == 0) {
 			destroy();
 

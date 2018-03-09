@@ -14,16 +14,26 @@ import sun.audio.*;
  */
 public class Explosion {
 
-    public void playExplosionSound() throws IOException {
+    public void playExplosionSound() {
 
             // open the sound file as a Java input stream
             String gongFile = "assets/sounds/explosion.wav";
-            InputStream in = new FileInputStream(gongFile);
+        InputStream in = null;
+        try {
+            in = new FileInputStream(gongFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            // create an audiostream from the inputstream
-            AudioStream audioStream = new AudioStream(in);
+        // create an audiostream from the inputstream
+        AudioStream audioStream = null;
+        try {
+            audioStream = new AudioStream(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            // play the audio clip with the audioplayer class
+        // play the audio clip with the audioplayer class
             AudioPlayer.player.start(audioStream);
 
     }
