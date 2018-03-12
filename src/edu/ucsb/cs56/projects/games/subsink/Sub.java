@@ -11,7 +11,6 @@ public class Sub extends Entity {
 	private double spawnCountdown = 0;
 	private double spawnFrequency;
 	public Explosion explosion;
-	private boolean flipped = false;
 	private boolean isExploded = false;
 	double explosionTimer = 0.5;
 
@@ -69,10 +68,8 @@ public class Sub extends Entity {
 	public void update(World world, double time) {
 		if (speedX < 0 && x < 0) {
 			speedX = -speedX;
-			this.flipped = !this.flipped;
 		} else if (speedX > 0 && x + width > world.getWidth()) {
 			speedX = -speedX;
-			this.flipped = !this.flipped;
 		}
 
 		spawnCountdown -= time;
@@ -108,10 +105,10 @@ public class Sub extends Entity {
 		double yOffset = (int) (Math.random() * 10) + y - 10;
 		if (isExploded) {
 			g.drawImage(ImageLoader.get("img/explosion.png"), (int) xOffset, (int) yOffset, null);
-		}else if (flipped){
-			g.drawImage(ImageLoader.get("img/sub_flipped.png"), (int) x, (int) y, null);
-		}else{
+		}else if ((speedX < 0)){
 			g.drawImage(ImageLoader.get("img/sub.png"), (int) x, (int) y, null);
+		}else{
+			g.drawImage(ImageLoader.get("img/sub.png"), (int) x + 60, (int) y, -60, 10,  null);
 		}
 	}
 }

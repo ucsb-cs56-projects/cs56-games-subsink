@@ -1,14 +1,14 @@
 package edu.ucsb.cs56.projects.games.subsink;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * The World is the main gameplay class that contains global game state and the game's entities.
@@ -27,6 +27,8 @@ public class World extends JPanel implements ActionListener {
 	private int msPerFrame;
 	private boolean locked = false;
 	private int chargeStock = 4;
+
+	private boolean paused = false;
 
 	/**
 	 * Construct a new world with the given dimensions
@@ -87,6 +89,9 @@ public class World extends JPanel implements ActionListener {
 	 */
 	public void update() {
 		double frameTime = (double)msPerFrame / 1000;
+		if (paused){
+			return;
+		}
 
 		// perform entity interaction
 		for (Entity e1 : entities) {
@@ -134,14 +139,19 @@ public class World extends JPanel implements ActionListener {
 	 * Prints out the final score and exits the application.
 	 */
 	public void gameOver() {
-		System.out.println("Final Score: " + new Integer(score).toString());
-		System.exit(0);
+		//save high schore
+		Leaderboard highScores = new Leaderboard();
+		highScores.saveScore(score);
+		java.util.List<String> gameOverMenuItems = Arrays.asList("Try Again", "Exit");
+		Screen gameOverScreen  = new Screen(gameOverMenuItems);
+
 	}
 
 	/**
 	 * Draw all the graphics, including all the entities.
 	 */
 	public void paint(Graphics g) {
+
 		super.paint(g);
 
 		Graphics2D g2d = (Graphics2D) g;
@@ -151,6 +161,12 @@ public class World extends JPanel implements ActionListener {
 		g2d.fillRect(0, 0, width, waterHeight);
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(0, waterHeight, width, height - waterHeight);
+
+		if (paused){
+			g2d.setColor(Color.BLACK);
+			g2d.drawString("Game Paused", width/2 - 40, height/2);
+			return;
+		}
 
 		// draw health
 		for (int health = player.getHealth(), cx = width - 20; health > 0; health--, cx -= 20) {
@@ -233,6 +249,10 @@ public class World extends JPanel implements ActionListener {
 						player.spawnCharge(false);
 						chargeStock--;
 					}
+					break;
+				case KeyEvent.VK_P:
+					paused = !paused;
+
 					break;
 			}
 		}

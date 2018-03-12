@@ -7,7 +7,7 @@ import java.io.IOException;
  * Ship is the player entity. It moves back and forth on the surface of the water and can drop charges.
  */
 public class Ship extends Entity {
-	private int health = 3;
+	private int health = 1;
 	private boolean spawning = false;
 	private boolean spawnLeft = false;
 	Explosion explosion;
@@ -76,6 +76,7 @@ public class Ship extends Entity {
 	 * @param world	The encompassing World
 	 */
 	public void finalize(World world) {
+
 		world.gameOver();
 	}
 
