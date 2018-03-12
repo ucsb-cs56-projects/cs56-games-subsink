@@ -84,11 +84,11 @@ public class Leaderboard extends JFrame implements ActionListener{
 
     public static void main(String[] args) {
 
-        Leaderboard leaderboard = new Leaderboard();
-        List<Score> l = leaderboard.getHighScores();
-        for(int i = 0; i < 10; i++) {
-            System.out.println(l.get(i).userName);
-        }
+//        Leaderboard leaderboard = new Leaderboard();
+//        List<Score> l = leaderboard.getHighScores();
+//        for(int i = 0; i < 10; i++) {
+//            System.out.println(l.get(i).userName);
+//        }
 
     }
 
