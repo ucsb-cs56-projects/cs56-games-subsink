@@ -155,6 +155,11 @@ public class Screen extends JFrame {
                     dispose();
                     return;
                 }
+                if (selectedMenuItem.equals("How To Play")) {
+                    HowToPlay htp = new HowToPlay();
+                    dispose();
+                    return;
+                }
                 painter.paint(g2d, text, bounds, isSelected, isFocused);
             }
             g2d.dispose();

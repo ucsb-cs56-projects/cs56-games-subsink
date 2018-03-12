@@ -11,7 +11,7 @@ public class Main extends JFrame {
 	private World w;
 
 	public static void main(String[] args) {
-		List<String> startMenuItems = Arrays.asList("Start Game", "High Scores", "Exit");
+		java.util.List<String> startMenuItems = Arrays.asList("Start Game", "How To Play" ,"High Scores", "Exit");
 		Screen screen = new Screen(startMenuItems);
 	}
 }
