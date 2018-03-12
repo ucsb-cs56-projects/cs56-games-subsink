@@ -12,8 +12,26 @@ import java.util.List;
 /**
  * Created by andy on 3/11/18.
  */
+
+class Score implements Comparable<Score>, Serializable {
+    String userName;
+    int userScore;
+
+    public Score(int score, String name) {
+        this.userScore = score;
+        this.userName = name;
+    }
+
+    @Override
+    public int compareTo(Score newScore) {
+        return userScore < newScore.userScore ? -1 : userScore > newScore.userScore ? 1 : 0;
+    }
+}
+
+
 public class Leaderboard extends JFrame implements ActionListener{
-    private ArrayList<Integer> scores;
+    private List<Score> scores;
+
 
     Leaderboard(){
         // de-serialize highest scores and put them in scores
@@ -24,21 +42,22 @@ public class Leaderboard extends JFrame implements ActionListener{
             ObjectInputStream in = new ObjectInputStream(file);
 
             // De-serialize
-            scores = (ArrayList<Integer>)in.readObject();
+            scores = (List<Score>)in.readObject();
 
             in.close();
             file.close();
 
         } catch(IOException | ClassNotFoundException ex) {
             System.out.println("Unable to load leaderboard");
-            scores = new ArrayList<>();
+            scores = new ArrayList<Score>();
         }
 
     }
 
-    public void saveScore(int score){
+    public void saveScore(String userName, int score){
         //Saving of object in a file
-        scores.add(score);
+        scores.add(new Score(score, userName));
+
         FileOutputStream file = null;
         try {
             file = new FileOutputStream("assets/data/scores");
@@ -51,11 +70,12 @@ public class Leaderboard extends JFrame implements ActionListener{
             file.close();
 
         }catch (IOException ex){
+            ex.printStackTrace();
             System.out.println("Unable to save score");
         }
     }
 
-    public ArrayList<Integer> getHighScores(){
+    public List<Score> getHighScores(){
         Collections.sort(scores);
         Collections.reverse(scores);
         return scores;
@@ -63,11 +83,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 
 
     public static void main(String[] args) {
-        Leaderboard test = new Leaderboard();
-        for (int i = 0; i < 10; i++){
-            test.saveScore(0);
+
+        Leaderboard leaderboard = new Leaderboard();
+        List<Score> l = leaderboard.getHighScores();
+        for(int i = 0; i < 10; i++) {
+            System.out.println(l.get(i).userName);
         }
-        test.paintLeaderboard();
 
     }
 
@@ -95,16 +116,16 @@ public class Leaderboard extends JFrame implements ActionListener{
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         int height = 140;
-        ArrayList<Integer> ar = getHighScores();
+        List<Score> scores = getHighScores();
         drawString(g2d, "Leaderboard", getWidth()/2 - 42, 80);
         for (int i = 0; i < 10; i++){ //top 10 scores
             String textToDisplay;
-            if (ar.get(i) == 0) {
-                textToDisplay = Integer.toString(i + 1) + ".\t" + "N/A";
+            if (scores.get(i).userScore == 0) {
+                textToDisplay = Integer.toString(i + 1) + ".\t"  + "Name: N/A" + ".\t          " + "Score: N/A";
             }else{
-                textToDisplay = Integer.toString(i + 1) + ".\t" + ar.get(i).toString();
+                textToDisplay = Integer.toString(i + 1) + ".\t" + "Name: " + scores.get(i).userName +  ".\t          " + "Score: " + Integer.toString(scores.get(i).userScore);
             }
-            drawString(g2d, textToDisplay, getWidth()/2 - 30, height);
+            drawString(g2d, textToDisplay, getWidth()/2 - 100, height);
             height+= 20;
         }
 
@@ -116,7 +137,7 @@ public class Leaderboard extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent event){
-        List<String> startMenuItems = Arrays.asList("Start Game", "High Scores", "Exit");
+        List<String> startMenuItems = Arrays.asList("Start Game", "How To Play", "High Scores", "Exit");
         Screen screen = new Screen(startMenuItems);
         dispose();
     }

@@ -139,9 +139,11 @@ public class World extends JPanel implements ActionListener {
 	 * Prints out the final score and exits the application.
 	 */
 	public void gameOver() {
-		//save high schore
+		//save high score
 		Leaderboard highScores = new Leaderboard();
-		highScores.saveScore(score);
+		String userName = JOptionPane.showInputDialog("Enter your name: ");
+
+		highScores.saveScore(userName, score);
 		java.util.List<String> gameOverMenuItems = Arrays.asList("Try Again", "Exit");
 		Screen gameOverScreen  = new Screen(gameOverMenuItems);
 
