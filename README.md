@@ -24,6 +24,12 @@ Helpful things to know for the project:
 
 - Make sure you know GUIs well (book is useful for the basics), get familiar with how exactly frames, buttons, and panes interact with each other [Frame examples](https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html) are helpful to understand how everything works together
 - Get familiar with the code in the World classes, and how paint() and update works -- critical when it comes to modifying the behaviour of the gameplay
+- Know about the Entity design pattern being used in the code:
+  - A sub, ship, height charges, depth charges are all entities
+  -Entities can interact with each other
+  - Entities can spawn other entities
+  - Entities can update themseleves to keep the game flowing
+  - More entities can be added and they can interact with other entities
 
 Current known bugs:
 - A submarine could be destroyed twice if two charges hit it at the same time
