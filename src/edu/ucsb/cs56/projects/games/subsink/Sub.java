@@ -75,7 +75,11 @@ public class Sub extends Entity {
 		spawnCountdown -= time;
 		if (spawnCountdown <= 0) {
 			spawnCountdown = Math.random() * 0.5 + spawnFrequency;
+//			if(I_think_I_can_hit_ship) {
 			world.spawn(new HeightCharge(x + 30, y - 8));
+//			}
+			//only reset the timer whenever you shoot a charge
+
 		}
 
 		if (isExploded){

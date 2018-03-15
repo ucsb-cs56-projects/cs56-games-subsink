@@ -10,13 +10,8 @@ import java.util.*;
  * Created by andy on 3/12/18.
  */
 public class HowToPlay extends JFrame implements ActionListener {
-    public static void main(String[] args) {
-        HowToPlay test = new HowToPlay();
 
-    }
-
-
-    HowToPlay() {
+    public void run(){
         JButton backButton = new JButton();
         backButton.setSize(60, 10);
         backButton.setText("Back");
@@ -63,8 +58,8 @@ public class HowToPlay extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event){
-        java.util.List<String> startMenuItems = Arrays.asList("Start Game", "How To Play" ,"High Scores", "Exit");
-        Screen screen = new Screen(startMenuItems);
+        StartScreen startScreen = new StartScreen();
+        startScreen.run();
         dispose();
     }
 

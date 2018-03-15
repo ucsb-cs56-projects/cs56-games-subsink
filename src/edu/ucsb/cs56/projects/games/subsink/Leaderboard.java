@@ -33,7 +33,7 @@ public class Leaderboard extends JFrame implements ActionListener{
     private List<Score> scores;
 
 
-    Leaderboard(){
+    public void loadScores(){
         // de-serialize highest scores and put them in scores
         try
         {
@@ -51,11 +51,11 @@ public class Leaderboard extends JFrame implements ActionListener{
             System.out.println("Unable to load leaderboard");
             scores = new ArrayList<Score>();
         }
-
     }
 
     public void saveScore(String userName, int score){
         //Saving of object in a file
+        loadScores();
         scores.add(new Score(score, userName));
 
         FileOutputStream file = null;
@@ -76,6 +76,7 @@ public class Leaderboard extends JFrame implements ActionListener{
     }
 
     public List<Score> getHighScores(){
+        loadScores();
         Collections.sort(scores);
         Collections.reverse(scores);
         return scores;
@@ -84,11 +85,11 @@ public class Leaderboard extends JFrame implements ActionListener{
 
     public static void main(String[] args) {
 
-//        Leaderboard leaderboard = new Leaderboard();
-//        List<Score> l = leaderboard.getHighScores();
-//        for(int i = 0; i < 10; i++) {
-//            System.out.println(l.get(i).userName);
-//        }
+        Leaderboard leaderboard = new Leaderboard();
+        List<Score> l = leaderboard.getHighScores();
+        for(int i = 0; i < 10; i++) {
+            System.out.println(l.get(i).userName);
+        }
 
     }
 
@@ -138,7 +139,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent event){
         List<String> startMenuItems = Arrays.asList("Start Game", "How To Play", "High Scores", "Exit");
-        Screen screen = new Screen(startMenuItems);
+//        Screen screen = new Screen(startMenuItems);
         dispose();
     }
 

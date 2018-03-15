@@ -70,6 +70,8 @@ public class World extends JPanel implements ActionListener {
 	 *
 	 * @param e	I don't care about this funny little man.
 	 */
+
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// safety measure - this stuff is not thread safe
 		if (locked) {
@@ -144,9 +146,8 @@ public class World extends JPanel implements ActionListener {
 		String userName = JOptionPane.showInputDialog("Enter your name: ");
 
 		highScores.saveScore(userName, score);
-		java.util.List<String> gameOverMenuItems = Arrays.asList("Try Again", "Exit");
-		Screen gameOverScreen  = new Screen(gameOverMenuItems);
-
+		GameOverScreen gameOverScreen = new GameOverScreen();
+		gameOverScreen.run();
 	}
 
 	/**
