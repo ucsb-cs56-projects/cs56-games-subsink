@@ -13,11 +13,11 @@ public abstract class Entity extends Rectangle2D.Double {
 	/**
 	 * The horizontal speed in pixels per second
 	 */
-	protected double speedX = 0;
+	public double speedX = 0;
 	/**
 	 * The vertical speed in pixels per second
 	 */
-	protected double speedY = 0;
+	public double speedY = 0;
 	private boolean gone = false;
 
 

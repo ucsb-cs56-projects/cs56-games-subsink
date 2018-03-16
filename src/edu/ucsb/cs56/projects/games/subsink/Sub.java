@@ -13,6 +13,7 @@ public class Sub extends Entity {
 	public Explosion explosion;
 	private boolean isExploded = false;
 	double explosionTimer = 0.5;
+    boolean can_hit_ship = false; 
 
 	/**
 	 * Construct a new Sub with the given initial parameters.
@@ -39,7 +40,7 @@ public class Sub extends Entity {
 	 * @param other	The other entity with which to interact
 	 */
 	public void interact(Entity other) {
-		if (! (other instanceof DepthCharge)) return;
+	    if (! (other instanceof DepthCharge)) return;
 		DepthCharge d = (DepthCharge)other;
 		if (this.intersects(d)) {
 			isExploded = true;
@@ -47,6 +48,22 @@ public class Sub extends Entity {
 			d.explode();
 			this.damage();
 		}
+		Ship s = (Ship) other;
+		if (other instanceof Ship)
+		    {
+	        
+			if(this.x == (430-this.y)/20*other.speedX + other.x && other.speedX>0 && this.speedX>0 )
+			    { can_hit_ship = true;
+
+			    }
+
+			if((this.x == (430-this.y)/20*other.speedX - other.x) && (other.speedX<0) && (this.speedX<0) ){
+			    can_hit_ship = true;
+			}
+
+			    }
+
+	       
 	}
 
 
@@ -75,9 +92,15 @@ public class Sub extends Entity {
 		spawnCountdown -= time;
 		if (spawnCountdown <= 0) {
 			spawnCountdown = Math.random() * 0.5 + spawnFrequency;
-//			if(I_think_I_can_hit_ship) {
+
+
+			if(can_hit_ship) {
 			world.spawn(new HeightCharge(x + 30, y - 8));
-//			}
+			}
+
+
+				world.spawn(new HeightCharge(x + 30, y - 8));
+
 			//only reset the timer whenever you shoot a charge
 
 		}
