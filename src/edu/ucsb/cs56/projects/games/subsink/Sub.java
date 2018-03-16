@@ -52,6 +52,7 @@ public class Sub extends Entity {
         
 	        
 			if(this.x == (430 - this.y)/50*other.speedX + other.x || this.x == (430-this.y)/50*other.speedX - other.x )
+			    
 			    { can_hit_ship = true;
 
 			    }
