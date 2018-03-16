@@ -49,17 +49,10 @@ public class Sub extends Entity {
 			this.damage();
 		}
 		Ship s = (Ship) other;
-		if (other instanceof Ship)
-		    {
+        
 	        
-			if(this.x == (430-this.y)/20*other.speedX + other.x && other.speedX>0 && this.speedX>0 )
+			if(this.x == (430 - this.y)/50*other.speedX + other.x || this.x == (430-this.y)/50*other.speedX - other.x )
 			    { can_hit_ship = true;
-
-			    }
-
-			if((this.x == (430-this.y)/20*other.speedX - other.x) && (other.speedX<0) && (this.speedX<0) ){
-			    can_hit_ship = true;
-			}
 
 			    }
 
@@ -102,6 +95,8 @@ public class Sub extends Entity {
 				world.spawn(new HeightCharge(x + 30, y - 8));
 
 			//only reset the timer whenever you shoot a charge
+
+			
 
 		}
 
