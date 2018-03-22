@@ -27,6 +27,7 @@ public class World extends JPanel implements ActionListener {
 	private int msPerFrame;
 	private boolean locked = false;
 	private int chargeStock = 4;
+	private boolean paused = false;
 
 	/**
 	 * Construct a new world with the given dimensions
@@ -87,6 +88,9 @@ public class World extends JPanel implements ActionListener {
 	 */
 	public void update() {
 		double frameTime = (double)msPerFrame / 1000;
+		if (paused){
+			return;
+		}
 
 		// perform entity interaction
 		for (Entity e1 : entities) {
@@ -151,6 +155,12 @@ public class World extends JPanel implements ActionListener {
 		g2d.fillRect(0, 0, width, waterHeight);
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(0, waterHeight, width, height - waterHeight);
+
+		if (paused){
+			g2d.setColor(Color.BLACK);
+			g2d.drawString("Game Paused", width/2 - 40, height/2);
+			return;
+		}
 
 		// draw health
 		for (int health = player.getHealth(), cx = width - 20; health > 0; health--, cx -= 20) {
@@ -233,6 +243,9 @@ public class World extends JPanel implements ActionListener {
 						player.spawnCharge(false);
 						chargeStock--;
 					}
+					break;
+				case KeyEvent.VK_P:
+					paused = !paused;
 					break;
 			}
 		}
